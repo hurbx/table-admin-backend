@@ -13,15 +13,15 @@ MER
 ---
 ```mermaid
   erDiagram
-      Mesa ||--o{ Productos : has
-      Mesa ||--o{ Empleado : has
-      Mesa ||--o{ Boleta : has
-      Boleta ||--o{ Poprina: has
-      Empleado ||--o{ Tipo : has
-      Productos ||--o{ Categoria : has
-      Categoria ||--o{ Descuento : has
-      Boleta ||--o{ Empleado : has
-      Boleta ||--o{ Mesa : has
-      Boleta ||--o{ Productos : has
+      Mesa ||--|{ Productos : has
+      Mesa ||--|{ Empleado : has
+      Mesa ||--|{ Boleta : has
+      Boleta ||--|| Poprina: has
+      Empleado ||--|| Tipo : has
+      Productos ||--|{ Categoria : has
+      Categoria ||--|| Descuento : has
+      Boleta ||--|{ Empleado : has
+      Boleta ||--|| Mesa : has
+      Boleta ||--|{ Productos : has
       
 ```
