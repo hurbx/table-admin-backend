@@ -1,6 +1,15 @@
 from django.db import models
 
 
+class Tip(models.Model):
+    tip_percentage = models.IntegerField('Percentage', blank=False, null=False)
+
+    tip = models.Manager()
+
+    def __str__(self):
+        return f'{self.id} - {self.tip_percentage}'
+
+
 class Discount(models.Model):
     discount_percentage = models.IntegerField('Percentage', blank=False, null=False)
 
@@ -13,6 +22,8 @@ class Discount(models.Model):
         verbose_name = 'Discount'
         verbose_name_plural = 'Discounts'
 
+
+#    bus = models.ForeignKey(Bus, on_delete=models.CASCADE, null=True, blank=True)
 
 class Type(models.Model):
     type_name = models.CharField('Name', max_length=50, blank=False, null=False)
@@ -27,12 +38,13 @@ class Type(models.Model):
         verbose_name_plural = 'Types'
 
 
-class User(models.Model):
-    user_name = models.CharField('Name', max_length=50, blank=False, null=False)
-    user_password = models.CharField('Password', max_length=50, blank=False, null=False)
-    user_email = models.CharField('Email', max_length=50, blank=False, null=False)
+class Employee(models.Model):
+    employee_name = models.CharField('Name', max_length=50, blank=False, null=False)
+    employee_password = models.CharField('Password', max_length=50, blank=False, null=False)
+    employee_email = models.CharField('Email', max_length=50, blank=False, null=False)
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, null=True, blank=True)
 
-    user = models.Manager()
+    employee = models.Manager()
 
     def __str__(self):
         return f'{self.id} - {self.user_name} - {self.user_email} - {self.user_password}'
@@ -61,6 +73,7 @@ class Table(models.Model):
     table_name = models.CharField('Name', max_length=50, blank=False, null=False)
     creation_date = models.DateTimeField('Creation Date', auto_now_add=True)
     payment_date = models.DateTimeField('Payment Date', blank=True, null=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
 
     table = models.Manager()
 
@@ -74,7 +87,9 @@ class Table(models.Model):
 
 class Ticket(models.Model):
     total = models.IntegerField('Total', blank=False, null=False)
-    tips = models.IntegerField('Tips', blank=False, null=False)
+    tips = models.ForeignKey(Tip, on_delete=models.CASCADE, null=True, blank=True)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, null=True, blank=True)
+    discount = models.ForeignKey(Discount, on_delete=models.CASCADE, null=True, blank=True)
 
     ticket = models.Manager()
 
