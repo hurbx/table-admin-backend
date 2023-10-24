@@ -9,11 +9,19 @@ capaces de generar una boleta, con el monto total,
 propina y detalle de los productos consumidos. 
 
 ---
-title: Order example
+MER
 ---
-erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    ORDER ||--|{ LINE-ITEM : contains
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-
-
+```mermaid
+  erDiagram
+      Mesa ||--o{ Productos : has
+      Mesa ||--o{ Empleado : has
+      Mesa ||--o{ Boleta : has
+      Boleta ||--o{ Poprina: has
+      Empleado ||--o{ Tipo : has
+      Productos ||--o{ Categoria : has
+      Categoria ||--o{ Descuento : has
+      Boleta ||--o{ Empleado : has
+      Boleta ||--o{ Mesa : has
+      Boleta ||--o{ Productos : has
+      
+```
