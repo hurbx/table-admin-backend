@@ -10,10 +10,24 @@ propina y detalle de los productos consumidos.
 ## Tecnologias
 - Python
 - Django
-- Django Rest Framework
+- Django Rest Framework 
 - PostgreSQL (en un futuro)
-- Cloud AWS
+- Cloud AWS (en un futuro)
 
+### Steps
+- [x] Create Virtual Environment
+- [x] Create Django Project
+- [x] Create Django App
+- [x] Create Models
+
+- souce venv/bin/activate
+- python/python3 manage.py makemigrations
+- python/python3 manage.py migrate
+- python/python3 manage.py createsuperuser
+- python/python3 manage.py runserver
+
+- user : peru
+- pass : peru
 ---
 MER
 ---
