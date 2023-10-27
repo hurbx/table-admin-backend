@@ -50,8 +50,8 @@ class Employee(models.Model):
         return f'{self.id} - {self.user_name} - {self.user_email} - {self.user_password}'
 
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name = 'Employee'
+        verbose_name_plural = 'Employees'
 
 
 class Product(models.Model):
