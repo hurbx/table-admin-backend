@@ -1,5 +1,5 @@
 from django.contrib import admin
-from restaurant.models import Tip, Discount, Type, Employee, Product, Table, Ticket
+from restaurant.models import Category, Tip, Discount, Type, Employee, Product, Table, Ticket
 
 
 # Register your models here.
@@ -11,6 +11,15 @@ class TipAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Tip, TipAdmin)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category_name')
+    search_fields = ('category_name', 'id')
+    list_filter = ('category_name', 'id')
+
+
+admin.site.register(Category, CategoryAdmin)
 
 
 class DiscountAdmin(admin.ModelAdmin):
@@ -41,7 +50,7 @@ admin.site.register(Employee, EmployeeAdmin)
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product_name', 'product_price', 'product_quantity')
+    list_display = ('id', 'product_name', 'product_price')
     search_fields = ('product_name', 'id')
     list_filter = ('product_name', 'id')
 
@@ -50,9 +59,9 @@ admin.site.register(Product, ProductAdmin)
 
 
 class TableAdmin(admin.ModelAdmin):
-    list_display = ('id', 'table_name', 'creation_date', 'payment_date', 'employee')
-    search_fields = ('table_name', 'id', 'employee', 'creation_date')
-    list_filter = ('table_name', 'id', 'employee')
+    list_display = ('id', 'table_name', 'creation_date', 'employee', 'total')
+    search_fields = ('table_name', 'id')
+    list_filter = ('table_name', 'id')
 
 
 admin.site.register(Table, TableAdmin)

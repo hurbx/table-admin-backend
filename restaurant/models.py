@@ -10,6 +10,19 @@ class Tip(models.Model):
         return f'{self.id} - {self.tip_percentage}'
 
 
+class Category(models.Model):
+    category_name = models.CharField('Name', max_length=50, blank=False, null=False)
+
+    category = models.Manager()
+
+    def __str__(self):
+        return f'{self.id} - {self.category_name}'
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+
 class Discount(models.Model):
     discount_percentage = models.IntegerField('Percentage', blank=False, null=False)
 
@@ -47,7 +60,7 @@ class Employee(models.Model):
     employee = models.Manager()
 
     def __str__(self):
-        return f'{self.id} - {self.user_name} - {self.user_email} - {self.user_password}'
+        return f'{self.id} - {self.employee_name} - {self.employee_email} - {self.employee_password}'
 
     class Meta:
         verbose_name = 'Employee'
@@ -57,12 +70,12 @@ class Employee(models.Model):
 class Product(models.Model):
     product_name = models.CharField('Name', max_length=50, blank=False, null=False)
     product_price = models.IntegerField('Price', blank=False, null=False)
-    product_quantity = models.IntegerField('Quantity', blank=False, null=False)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
 
     product = models.Manager()
 
     def __str__(self):
-        return f'{self.id} - {self.product_name} - {self.product_price} - {self.product_quantity}'
+        return f'{self.id} - {self.product_name} - {self.product_price}'
 
     class Meta:
         verbose_name = 'Product'
@@ -70,19 +83,44 @@ class Product(models.Model):
 
 
 class Table(models.Model):
-    table_name = models.CharField('Name', max_length=50, blank=False, null=False)
-    creation_date = models.DateTimeField('Creation Date', auto_now_add=True)
-    payment_date = models.DateTimeField('Payment Date', blank=True, null=True)
+    name_choices = (
+        ('table_1', 'Table 1'),
+        ('table_2', 'Table 2'),
+        ('table_3', 'Table 3'),
+    )
+    table_name = models.CharField(
+        'Name',
+        max_length=50,
+        choices=name_choices,
+        blank=False,
+        null=False
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ManyToManyField(Product)
+    total = models.IntegerField(blank=True, null=True)
 
     table = models.Manager()
 
     def __str__(self):
-        return f'{self.id} - {self.table_name} - {self.creation_date} - {self.payment_date}'
+        return f'{self.id} - {self.table_name} - {self.creation_date} - {self.employee} - {self.total}'
 
     class Meta:
         verbose_name = 'Table'
         verbose_name_plural = 'Tables'
+
+    def calculate_total(self):
+        if self.product.all():
+            total = 0
+            for product in self.product.all():
+                total += product.product_price
+            self.total = total
+        else:
+            self.total = 0
+
+    def save(self, *args, **kwargs):
+        self.calculate_total()
+        super().save(*args, **kwargs)
 
 
 class Ticket(models.Model):
@@ -99,3 +137,4 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = 'Ticket'
         verbose_name_plural = 'Tickets'
+
